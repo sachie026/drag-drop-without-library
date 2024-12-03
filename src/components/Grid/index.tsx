@@ -174,11 +174,11 @@ function Grid() {
         <input type="text" />
         <button onClick={addMessage}>Add</button>
       </div>
+
       <div onClick={() => updateListType(0)}>Inital Order</div>
-
       <div onClick={() => updateListType(1)}>Sorted Order</div>
-      <div className="drag-drop-board">
 
+      <div className="grid grid-flow-col gap-4 auto-cols-[minmax(0,_2fr)] p-24">
         {Object.entries(
           listType === 0 ? initialGroupList : sortedGroupList
         ).map((entry: [string, ListItem[]], index: number) => {
@@ -190,7 +190,7 @@ function Grid() {
                 onDropNew(e, entry[0]);
               }}
             >
-              {entry[0]}
+              <div className="bg-black text-white p-4 rounded-md">{entry[0]}</div>
 
               {entry[1].map((item: ListItem, id: number) => {
                 return (
@@ -198,7 +198,7 @@ function Grid() {
                     key={`yearGroupItem${index}${id}`}
                     onDragStart={(e) => onDragStart(e, id)}
                     draggable
-                    className={`tile-${entry[0]}-${id}`}
+                    className={`tile-${entry[0]}-${id} bg-gray-100 my-4 rounded-md p-8`}
                   >
                     {item.date}
                     {item.message}
