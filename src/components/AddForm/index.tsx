@@ -85,25 +85,28 @@ function AddForm({ onSubmit, hideModal }: Props) {
               </label>
             </div>
 
-            <NumberInput
-              name="date"
-              length={2}
-              value={messageFormData.date}
-              inputChangeHandler={inputChangeHandler}
-            />
-            <NumberInput
-              name="month"
-              length={2}
-              value={messageFormData.month}
-              inputChangeHandler={inputChangeHandler}
-            />
-            <NumberInput
-              name="year"
-              length={4}
-              value={messageFormData.year}
-              inputChangeHandler={inputChangeHandler}
-            />
-            <label className="font-medium text-gray-800">message</label>
+            <div className="grid grid-flow-row grid-cols-3 mb-6">
+              <NumberInput
+                name="date"
+                length={2}
+                value={messageFormData.date}
+                inputChangeHandler={inputChangeHandler}
+              />
+              <NumberInput
+                name="month"
+                length={2}
+                value={messageFormData.month}
+                inputChangeHandler={inputChangeHandler}
+              />
+              <NumberInput
+                name="year"
+                length={4}
+                value={messageFormData.year}
+                inputChangeHandler={inputChangeHandler}
+              />
+            </div>
+
+            <label className="font-thin text-gray-800">message</label>
             <input
               name="message"
               value={messageFormData.message}

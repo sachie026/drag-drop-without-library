@@ -1,3 +1,5 @@
+import React from "react";
+
 interface Props {
   name: string;
   value: string;
@@ -7,18 +9,18 @@ interface Props {
 
 function NumberInput({ name, value, length, inputChangeHandler }: Props) {
   return (
-    <>
-      <label className="font-medium text-gray-800 capitalize">{name}</label>
+    <div className="grid grid-flow-col content-center justify-center">
+      <label className="font-thin text-center text-gray-600 capitalize">{name}</label>
       <input
         pattern="\d*"
         maxLength={length}
         name={name}
         value={value}
         onChange={inputChangeHandler}
-        className="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3"
+        className="w-2/3 outline-none rounded bg-gray-100 ml-4"
       />
-    </>
+    </div>
   );
 }
 
-export default NumberInput;
+export default React.memo(NumberInput);
