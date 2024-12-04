@@ -1,12 +1,16 @@
 import { ListItem, YearGroupData } from "../Grid";
+import Tile from "./Tile";
 
 interface Props {
-    groupList: YearGroupData;
-    onDragStart: (event: React.DragEvent<HTMLDivElement>, tileId: number) => void;
-    onDropNew: (event: React.DragEvent<HTMLDivElement>, onDropYear: string) => void;
-} 
+  groupList: YearGroupData;
+  onDragStart: (event: React.DragEvent<HTMLDivElement>, tileId: number) => void;
+  onDropNew: (
+    event: React.DragEvent<HTMLDivElement>,
+    onDropYear: string
+  ) => void;
+}
 
-function Group({ groupList, onDropNew, onDragStart}: Props) {
+function Group({ groupList, onDropNew, onDragStart }: Props) {
   return (
     <div className="grid grid-flow-col gap-4 auto-cols-[minmax(0,_2fr)] p-24">
       {Object.entries(groupList).map(
@@ -25,14 +29,13 @@ function Group({ groupList, onDropNew, onDragStart}: Props) {
 
               {entry[1].map((item: ListItem, id: number) => {
                 return (
-                  <div
+                  <Tile
                     key={`yearGroupItem${index}${id}`}
-                    onDragStart={(e) => onDragStart(e, id)}
-                    draggable
-                    className={`tile-${entry[0]}-${id} bg-white my-4 rounded-md p-8 cursor-move border-b-4 border-black text-center`}
-                  >
-                    {item.date}-{item.month}-{item.message}
-                  </div>
+                    onDragStart={onDragStart}
+                    item={item}
+                    tileId={id}
+                    group={entry[0]}
+                  />
                 );
               })}
             </div>

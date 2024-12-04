@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { DEFAULT_FORM_DATA, Message } from "../../assets/data";
 import { isNumber } from "../../utils/helper";
+import NumberInput from "./NumberInput";
 
 interface Props {
   onSubmit: (data: Message) => void;
@@ -24,6 +25,20 @@ function AddForm({ onSubmit, hideModal }: Props) {
       return;
     }
 
+    if (parseInt(messageFormData.date) > 31) {
+      setErrorMessage("Enter valid date.");
+      return;
+    }
+    if (parseInt(messageFormData.month) > 12) {
+      setErrorMessage("Enter valid month.");
+      return;
+    }
+
+    if (parseInt(messageFormData.year) > 2024) {
+      setErrorMessage("Enter valid date year.");
+      return;
+    }
+
     setErrorMessage(null);
     const newMessage = {
       date: `${messageFormData.year}-${messageFormData.month}-${messageFormData.date}`,
@@ -39,17 +54,13 @@ function AddForm({ onSubmit, hideModal }: Props) {
     const targetValue = event.target.value;
     const targetName = event.target.name;
     if (
-      (targetName !== "message" && !isNumber(targetValue)) ||
-      (targetName === "month" && parseInt(targetValue) > 12) ||
-      (targetName === "date" && parseInt(targetValue) > 31) ||
-      (targetName === "year" && parseInt(targetValue) > 2024)
+      targetName !== "message" &&
+      !isNumber(targetValue) &&
+      targetValue !== ""
     ) {
       return;
     }
 
-    if (targetName === "month" && parseInt(targetValue) > 12) {
-      return;
-    }
     setMessageFormData((prev) => ({
       ...prev,
       ...{
@@ -72,38 +83,29 @@ function AddForm({ onSubmit, hideModal }: Props) {
           aria-labelledby="modal-headline"
         >
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <div className=" mb-8">
+            <div className="mb-8">
               <label className="text-lg font-bold text-gray-800">
                 Add message details
               </label>
             </div>
 
-            <label className="font-medium text-gray-800">Date</label>
-            <input
-              pattern="\d*"
-              maxLength={2}
+            <NumberInput
               name="date"
+              length={2}
               value={messageFormData.date}
-              onChange={inputChangeHandler}
-              className="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3"
+              inputChangeHandler={inputChangeHandler}
             />
-            <label className="font-medium text-gray-800">Month</label>
-            <input
-              pattern="\d*"
-              maxLength={2}
+            <NumberInput
               name="month"
+              length={2}
               value={messageFormData.month}
-              onChange={inputChangeHandler}
-              className="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3"
+              inputChangeHandler={inputChangeHandler}
             />
-            <label className="font-medium text-gray-800">year</label>
-            <input
-              pattern="\d*"
-              maxLength={4}
+            <NumberInput
               name="year"
+              length={4}
               value={messageFormData.year}
-              onChange={inputChangeHandler}
-              className="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3"
+              inputChangeHandler={inputChangeHandler}
             />
             <label className="font-medium text-gray-800">message</label>
             <input
@@ -122,53 +124,19 @@ function AddForm({ onSubmit, hideModal }: Props) {
               className="py-2 px-4 bg-gray-500 text-white rounded hover:bg-gray-700 mr-2"
               onClick={hideModal}
             >
-              <i className="fas fa-times"></i> Cancel
+              Cancel
             </button>
             <button
               type="button"
               className="py-2 px-4 bg-blue-500 text-white rounded font-medium hover:bg-blue-700 mr-2 transition duration-500"
               onClick={addMessage}
             >
-              <i className="fas fa-plus"></i> Add
+              Add
             </button>
           </div>
         </div>
       </div>
     </div>
-    // <div className="fixed z-10 overflow-y-auto top-0 w-full left-0" role="dialog" aria-modal="true">
-    //   <input
-    //     pattern="\d*"
-    //     maxLength={2}
-    //     name="date"
-    //     value={messageFormData.date}
-    //     onChange={inputChangeHandler}
-    //   />
-
-    //   <input
-    //     pattern="\d*"
-    //     maxLength={2}
-    //     name="month"
-    //     value={messageFormData.month}
-    //     onChange={inputChangeHandler}
-    //   />
-
-    //   <input
-    //     pattern="\d*"
-    //     maxLength={4}
-    //     name="year"
-    //     value={messageFormData.year}
-    //     onChange={inputChangeHandler}
-    //   />
-
-    //   <input
-    //     type="text"
-    //     name="message"
-    //     value={messageFormData.message}
-    //     onChange={inputChangeHandler}
-    //   />
-
-    //   <button onClick={addMessage}>Add</button>
-    // </div>
   );
 }
 

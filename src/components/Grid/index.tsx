@@ -1,8 +1,9 @@
-import { DragEvent, useCallback, useEffect, useState } from "react";
-import { DEFAULT_FORM_DATA, InputList, Message } from "../../assets/data";
-import { isNumber, sortBasedOnMutlipleFields } from "../../utils/helper";
+import { useCallback, useEffect, useState } from "react";
+import { InputList, Message } from "../../assets/data";
+import { sortBasedOnMutlipleFields } from "../../utils/helper";
 import AddForm from "../AddForm";
 import Group from "../Group";
+import Header from "../Header";
 
 export type ListItem = {
   date: string;
@@ -17,9 +18,6 @@ function Grid() {
   const [sortedGroupList, setSortedGroupList] = useState<YearGroupData>({});
   const [listType, setListType] = useState(0);
   const [allMessages, setAllMessages] = useState<Message[]>([...InputList]);
-  const [messageFormData, setMessageFormData] = useState({
-    ...DEFAULT_FORM_DATA,
-  });
   const [showModal, setShowModal] = useState(false);
 
   const convertToGroupList = useCallback(() => {
@@ -110,39 +108,9 @@ function Grid() {
     }
   };
 
-  const addMessage = () => {
-    if (
-      !messageFormData.year ||
-      !messageFormData.date ||
-      !messageFormData.month ||
-      !messageFormData.message
-    ) {
-      return;
-    }
-    const newMessage = {
-      date: `${messageFormData.year}-${messageFormData.month}-${messageFormData.date}`,
-      message: messageFormData.message,
-    };
-
-    setAllMessages([...allMessages, newMessage]);
-    setMessageFormData({ ...DEFAULT_FORM_DATA });
-  };
-
   const onAddMessageHandler = (messageData: Message) => {
     setAllMessages([...allMessages, messageData]);
     convertToGroupList();
-  };
-
-  const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.name !== "message" && !isNumber(event.target.value)) {
-      return;
-    }
-    setMessageFormData((prev) => ({
-      ...prev,
-      ...{
-        [event.target.name]: event.target.value,
-      },
-    }));
   };
 
   const modalVisibilityHandler = (value: boolean) => {
@@ -161,19 +129,10 @@ function Grid() {
           hideModal={() => modalVisibilityHandler(false)}
         />
       ) : null}
-      <button className="cursor-pointer" onClick={() => updateListType(0)}>
-        Inital Order
-      </button>
-      <button className="cursor-pointer" onClick={() => updateListType(1)}>
-        Sorted Order
-      </button>
-      <button
-        className="cursor-pointer"
-        onClick={() => modalVisibilityHandler(true)}
-      >
-        Add new message
-      </button>
-
+      <Header
+        updateListType={updateListType}
+        modalVisibilityHandler={modalVisibilityHandler}
+      />
       <Group
         groupList={listType === 0 ? initialGroupList : sortedGroupList}
         onDragStart={onDragStart}
