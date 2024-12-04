@@ -16,9 +16,18 @@ export type YearGroupData = Record<string, ListItem[]>;
 function Grid() {
   const [initialGroupList, setInitialGroupList] = useState<YearGroupData>({});
   const [sortedGroupList, setSortedGroupList] = useState<YearGroupData>({});
+  const [selectedGroupList, setSelectedGroupList] = useState<YearGroupData>({});
   const [listType, setListType] = useState(0);
   const [allMessages, setAllMessages] = useState<Message[]>([...InputList]);
   const [showModal, setShowModal] = useState(false);
+
+  const updateListType = useCallback(
+    (value: number) => {
+      setListType(value);
+      setSelectedGroupList(value === 0 ? initialGroupList : sortedGroupList);
+    },
+    [initialGroupList, sortedGroupList]
+  );
 
   const convertToGroupList = useCallback(() => {
     const yearWiseObj: YearGroupData = {};
@@ -54,12 +63,10 @@ function Grid() {
     });
 
     setSortedGroupList({ ...objToSort });
-  }, [allMessages]);
+    updateListType(listType);
+  }, [allMessages, listType, updateListType]);
 
-  const updateListType = (value: number) => {
-    setListType(value);
-  };
-
+  
   const onDragStart = (
     event: React.DragEvent<HTMLDivElement>,
     tileId: number
@@ -74,7 +81,7 @@ function Grid() {
     event: React.DragEvent<HTMLDivElement>,
     onDropYear: string
   ) => {
-    const id = parseInt(event.dataTransfer.getData("tileId"));
+    const tileId = parseInt(event.dataTransfer.getData("tileId"));
     const targetYear = event.dataTransfer.getData("yearGroup");
 
     if (onDropYear !== targetYear) {
@@ -85,27 +92,18 @@ function Grid() {
     const eventTarget = event.target as HTMLDivElement;
     const toAddIndex = parseInt(eventTarget.className.split("-")[2]);
 
-    const prevDataList =
-      listType === 0
-        ? [...initialGroupList[onDropYear]]
-        : [...sortedGroupList[onDropYear]];
+    const prevDataList = [...selectedGroupList[onDropYear]];
 
-    const elementToInsert = prevDataList.splice(id, 1)[0];
+    const elementToInsert = prevDataList.splice(tileId, 1)[0];
     prevDataList.splice(toAddIndex, 0, elementToInsert);
 
-    const tempList =
-      listType === 0 ? { ...initialGroupList } : { ...sortedGroupList };
+    const tempList = { ...selectedGroupList };
     tempList[onDropYear] = [...prevDataList];
 
-    if (listType === 0) {
-      setInitialGroupList({
-        ...tempList,
-      });
-    } else {
-      setSortedGroupList({
-        ...tempList,
-      });
-    }
+    setSelectedGroupList({
+      ...tempList,
+    });
+    convertToGroupList();
   };
 
   const onAddMessageHandler = (messageData: Message) => {
@@ -119,7 +117,7 @@ function Grid() {
 
   useEffect(() => {
     convertToGroupList();
-  }, [convertToGroupList]);
+  }, [convertToGroupList, listType, updateListType]);
 
   return (
     <div className="bg-gray-200">
@@ -134,7 +132,7 @@ function Grid() {
         modalVisibilityHandler={modalVisibilityHandler}
       />
       <Group
-        groupList={listType === 0 ? initialGroupList : sortedGroupList}
+        groupList={selectedGroupList}
         onDragStart={onDragStart}
         onDropNew={onDropNew}
       />

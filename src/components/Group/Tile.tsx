@@ -1,5 +1,20 @@
 import { ListItem } from "../Grid";
 
+const MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "June",
+  "July",
+  "Aug",
+  "Sept",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
 interface Props {
   item: ListItem;
   group: string;
@@ -12,9 +27,15 @@ function Tile({ item, group, tileId, onDragStart }: Props) {
     <div
       onDragStart={(event) => onDragStart(event, tileId)}
       draggable
-      className={`tile-${group}-${tileId} bg-white my-4 rounded-md p-8 cursor-move border-b-4 border-black text-center`}
+      className={`tile-${group}-${tileId} bg-white my-4 rounded-md p-8 cursor-move border-b-4 text-center`}
     >
-      {item.date}-{item.month}-{item.message}
+      <div className="mb-6">
+        <label className="text-2xl font-bold mr-2 text-gray-300">
+          {MONTHS[parseInt(item.month)]}
+        </label>
+        <label className="text-sm font-normal">{item.date}</label>
+      </div>
+      <label className={`text-large text-green-300`}>{item.message}</label>
     </div>
   );
 }

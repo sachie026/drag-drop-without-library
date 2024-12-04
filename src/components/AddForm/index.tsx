@@ -13,36 +13,32 @@ function AddForm({ onSubmit, hideModal }: Props) {
     ...DEFAULT_FORM_DATA,
   });
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { year, month, date, message } = messageFormData;
 
   const addMessage = () => {
-    if (
-      !messageFormData.year ||
-      !messageFormData.date ||
-      !messageFormData.month ||
-      !messageFormData.message
-    ) {
+    if (!year || !date || !month || !message) {
       setErrorMessage("All fields are required.");
       return;
     }
 
-    if (parseInt(messageFormData.date) > 31) {
+    if (parseInt(date) > 31) {
       setErrorMessage("Enter valid date.");
       return;
     }
-    if (parseInt(messageFormData.month) > 12) {
+    if (parseInt(month) > 12) {
       setErrorMessage("Enter valid month.");
       return;
     }
 
-    if (parseInt(messageFormData.year) > 2024) {
+    if (parseInt(year) > 2024) {
       setErrorMessage("Enter valid date year.");
       return;
     }
 
     setErrorMessage(null);
     const newMessage = {
-      date: `${messageFormData.year}-${messageFormData.month}-${messageFormData.date}`,
-      message: messageFormData.message,
+      date: `${year}-${month}-${date}`,
+      message,
     };
 
     onSubmit(newMessage);
