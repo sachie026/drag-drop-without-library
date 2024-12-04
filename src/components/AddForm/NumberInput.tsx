@@ -10,14 +10,16 @@ interface Props {
 function NumberInput({ name, value, length, inputChangeHandler }: Props) {
   return (
     <div className="grid grid-flow-col content-center justify-center">
-      <label className="font-thin text-center text-gray-600 capitalize">{name}</label>
+      <label className="font-thin text-center text-gray-600 capitalize">
+        {name}
+      </label>
       <input
         pattern="\d*"
         maxLength={length}
         name={name}
         value={value}
         onChange={inputChangeHandler}
-        className="w-2/3 outline-none rounded bg-gray-100 ml-4"
+        className="w-2/3 outline-none text-sm rounded bg-gray-100 ml-4 pl-2 py-1"
       />
     </div>
   );

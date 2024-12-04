@@ -30,6 +30,7 @@ function Grid() {
   );
 
   const convertToGroupList = useCallback(() => {
+    // This method is required when we add the new message or for the first time rendering
     const yearWiseObj: YearGroupData = {};
     allMessages.forEach((msgItem: Message) => {
       const dateArr = msgItem.date.split("-");
@@ -63,10 +64,8 @@ function Grid() {
     });
 
     setSortedGroupList({ ...objToSort });
-    updateListType(listType);
-  }, [allMessages, listType, updateListType]);
+  }, [allMessages]);
 
-  
   const onDragStart = (
     event: React.DragEvent<HTMLDivElement>,
     tileId: number
@@ -103,12 +102,29 @@ function Grid() {
     setSelectedGroupList({
       ...tempList,
     });
-    convertToGroupList();
+  };
+
+  const handleSelectedListOnAdd = (messageData: Message) => {
+    // This method is required to add to the current visible list
+    const splitDate = messageData.date.split("-");
+    const onDropYear = splitDate[0];
+    const prevDataList = [...selectedGroupList[onDropYear]];
+    const tempList = { ...selectedGroupList };
+
+    tempList[onDropYear] = [
+      ...prevDataList,
+      { date: splitDate[2], month: splitDate[1], message: messageData.message },
+    ];
+
+    setSelectedGroupList({
+      ...tempList,
+    });
   };
 
   const onAddMessageHandler = (messageData: Message) => {
     setAllMessages([...allMessages, messageData]);
     convertToGroupList();
+    handleSelectedListOnAdd(messageData);
   };
 
   const modalVisibilityHandler = (value: boolean) => {
@@ -117,7 +133,7 @@ function Grid() {
 
   useEffect(() => {
     convertToGroupList();
-  }, [convertToGroupList, listType, updateListType]);
+  }, [convertToGroupList, listType]);
 
   return (
     <div className="bg-gray-200">

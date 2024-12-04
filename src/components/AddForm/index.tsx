@@ -114,7 +114,7 @@ function AddForm({ onSubmit, hideModal }: Props) {
               className="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3"
             />
             {errorMessage ? (
-              <label className="text-red-500">{errorMessage}</label>
+              <label className="text-red-500 text-sm">{errorMessage}</label>
             ) : null}
           </div>
           <div className="bg-gray-200 px-4 py-3 text-right">

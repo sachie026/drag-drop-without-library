@@ -1,3 +1,5 @@
+import React from "react";
+
 interface Props {
   updateListType: (value: number) => void;
   modalVisibilityHandler: (value: boolean) => void;
@@ -32,4 +34,4 @@ function Header({ updateListType, modalVisibilityHandler }: Props) {
   );
 }
 
-export default Header;
+export default React.memo(Header);

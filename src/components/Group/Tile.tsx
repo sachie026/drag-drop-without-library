@@ -1,19 +1,6 @@
+import React from "react";
 import { ListItem } from "../Grid";
-
-const MONTHS = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "June",
-  "July",
-  "Aug",
-  "Sept",
-  "Oct",
-  "Nov",
-  "Dec",
-];
+import { MONTHS } from "../../assets/data";
 
 interface Props {
   item: ListItem;
@@ -40,4 +27,4 @@ function Tile({ item, group, tileId, onDragStart }: Props) {
   );
 }
 
-export default Tile;
+export default React.memo(Tile);

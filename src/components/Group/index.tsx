@@ -26,6 +26,8 @@ function Group({ groupList, onDropNew, onDragStart }: Props) {
         </label>
       ) : null}
       {allEntries.map((entry: [string, ListItem[]], index: number) => {
+        const year = entry[0];
+        const yearDataList = entry[1];
         return (
           <div
             key={`yearGroup${index}`}
@@ -33,11 +35,11 @@ function Group({ groupList, onDropNew, onDragStart }: Props) {
               event.preventDefault()
             }
             onDrop={(event: React.DragEvent<HTMLDivElement>) => {
-              onDropNew(event, entry[0]);
+              onDropNew(event, year);
             }}
           >
             <div className="bg-black text-white p-2 rounded-md text-center content-center h-10">
-              {entry[0]}
+              {year}
             </div>
 
             <div
@@ -45,14 +47,14 @@ function Group({ groupList, onDropNew, onDragStart }: Props) {
                 showGroupRows ? "grid-flow-col" : "grid-flow-row"
               }`}
             >
-              {entry[1].map((item: ListItem, id: number) => {
+              {yearDataList.map((item: ListItem, id: number) => {
                 return (
                   <Tile
                     key={`yearGroupItem${index}${id}`}
                     onDragStart={onDragStart}
                     item={item}
                     tileId={id}
-                    group={entry[0]}
+                    group={year}
                   />
                 );
               })}
