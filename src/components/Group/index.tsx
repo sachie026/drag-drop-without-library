@@ -11,7 +11,7 @@ export type ListItem = {
 
 type YearGroupData = Record<string, ListItem[]>;
 
-function Grid() {
+function Group() {
   const [initialGroupList, setInitialGroupList] = useState<YearGroupData>({});
   const [sortedGroupList, setSortedGroupList] = useState<YearGroupData>({});
   const [listType, setListType] = useState(0);
@@ -242,4 +242,4 @@ function Grid() {
   );
 }
 
-export default Grid;
+export default Group;
