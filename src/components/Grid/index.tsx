@@ -136,7 +136,7 @@ function Grid() {
   }, [convertToGroupList, listType]);
 
   return (
-    <div className="bg-gray-200">
+    <div className="bg-gray-100">
       {showModal ? (
         <AddForm
           onSubmit={onAddMessageHandler}
