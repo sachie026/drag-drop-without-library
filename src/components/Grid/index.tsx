@@ -2,6 +2,7 @@ import { DragEvent, useCallback, useEffect, useState } from "react";
 import { DEFAULT_FORM_DATA, InputList, Message } from "../../assets/data";
 import { isNumber, sortBasedOnMutlipleFields } from "../../utils/helper";
 import AddForm from "../AddForm";
+import Group from "../Group";
 
 export type ListItem = {
   date: string;
@@ -9,7 +10,7 @@ export type ListItem = {
   message: string;
 };
 
-type YearGroupData = Record<string, ListItem[]>;
+export type YearGroupData = Record<string, ListItem[]>;
 
 function Grid() {
   const [initialGroupList, setInitialGroupList] = useState<YearGroupData>({});
@@ -71,7 +72,10 @@ function Grid() {
     event.dataTransfer.setData("yearGroup", yearGroup.toString());
   };
 
-  const onDropNew = (event: DragEvent<HTMLDivElement>, onDropYear: string) => {
+  const onDropNew = (
+    event: React.DragEvent<HTMLDivElement>,
+    onDropYear: string
+  ) => {
     const id = parseInt(event.dataTransfer.getData("tileId"));
     const targetYear = event.dataTransfer.getData("yearGroup");
 
@@ -157,42 +161,6 @@ function Grid() {
           hideModal={() => modalVisibilityHandler(false)}
         />
       ) : null}
-
-      {/* <div>
-        <input
-          pattern="\d*"
-          maxLength={2}
-          name="date"
-          value={messageFormData.date}
-          onChange={inputChangeHandler}
-        />
-
-        <input
-          pattern="\d*"
-          maxLength={2}
-          name="month"
-          value={messageFormData.month}
-          onChange={inputChangeHandler}
-        />
-
-        <input
-          pattern="\d*"
-          maxLength={4}
-          name="year"
-          value={messageFormData.year}
-          onChange={inputChangeHandler}
-        />
-
-        <input
-          name="message"
-          value={messageFormData.message}
-          onChange={inputChangeHandler}
-        />
-
-        <input type="text" />
-        <button onClick={addMessage}>Add</button>
-      </div> */}
-
       <button className="cursor-pointer" onClick={() => updateListType(0)}>
         Inital Order
       </button>
@@ -206,38 +174,11 @@ function Grid() {
         Add new message
       </button>
 
-      <div className="grid grid-flow-col gap-4 auto-cols-[minmax(0,_2fr)] p-24">
-        {Object.entries(
-          listType === 0 ? initialGroupList : sortedGroupList
-        ).map((entry: [string, ListItem[]], index: number) => {
-          return (
-            <div
-              key={`yearGroup${index}`}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={(e) => {
-                onDropNew(e, entry[0]);
-              }}
-            >
-              <div className="bg-black text-white p-4 rounded-md text-center">
-                {entry[0]}
-              </div>
-
-              {entry[1].map((item: ListItem, id: number) => {
-                return (
-                  <div
-                    key={`yearGroupItem${index}${id}`}
-                    onDragStart={(e) => onDragStart(e, id)}
-                    draggable
-                    className={`tile-${entry[0]}-${id} bg-white  my-4 rounded-md p-8 cursor-move border-b-4 border-black text-center`}
-                  >
-                    {item.date}-{item.month}-{item.message}
-                  </div>
-                );
-              })}
-            </div>
-          );
-        })}
-      </div>
+      <Group
+        groupList={listType === 0 ? initialGroupList : sortedGroupList}
+        onDragStart={onDragStart}
+        onDropNew={onDropNew}
+      />
     </div>
   );
 }
