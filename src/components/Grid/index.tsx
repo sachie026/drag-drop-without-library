@@ -132,6 +132,7 @@ function Grid() {
   };
 
   useEffect(() => {
+    // When the page loads, we need to call this method to have the inital and sorted ordered list
     convertToGroupList();
   }, [convertToGroupList, listType]);
 
