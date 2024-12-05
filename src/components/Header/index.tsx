@@ -5,22 +5,17 @@ interface Props {
   modalVisibilityHandler: (value: boolean) => void;
 }
 
-const BUTTON_CLASSES = "cursor-pointer px-4 py-1 mr-4 rounded-md text-sm cursor-pointer border-x border-y border-gray-300 hover:bg-gray-100";
+const BUTTON_CLASSES =
+  "cursor-pointer px-4 py-1 mr-4 rounded-md text-sm cursor-pointer border-x border-y border-gray-300 hover:bg-gray-100";
 
 function Header({ updateListType, modalVisibilityHandler }: Props) {
   return (
     <div className="flex flex-row max-sm:flex-col px-24 pt-8 pb-8 bg-white content-center justify-center">
       <div className="flex-1 content-center font-thin">
-        <button
-          className={BUTTON_CLASSES}
-          onClick={() => updateListType(0)}
-        >
+        <button className={BUTTON_CLASSES} onClick={() => updateListType(0)}>
           Inital Order
         </button>
-        <button
-          className={BUTTON_CLASSES}
-          onClick={() => updateListType(1)}
-        >
+        <button className={BUTTON_CLASSES} onClick={() => updateListType(1)}>
           Sorted Order
         </button>
       </div>

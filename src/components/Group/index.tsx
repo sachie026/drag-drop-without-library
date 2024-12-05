@@ -44,9 +44,7 @@ function Group({ groupList, onDropNew, onDragStart }: Props) {
 
             <div
               className={`grid gap-4 grid-flow-row max-md:grid-cols-2 max-lg:grid-cols-3 ${
-                showGroupRows
-                  ? "grid-cols-3"
-                  : ""
+                showGroupRows ? "grid-cols-3" : ""
               } `}
             >
               {yearDataList.map((item: ListItem, id: number) => {
