@@ -17,8 +17,8 @@ function Group({ groupList, onDropNew, onDragStart }: Props) {
   return (
     <div
       className={`grid ${
-        showGroupRows ? "grid-flow-row" : "grid-flow-col"
-      } gap-4 auto-cols-[minmax(0,_2fr)] p-24 pt-12`}
+        showGroupRows ? "grid-flow-row " : "grid-flow-col"
+      } max-lg:grid-flow-row auto-cols-[minmax(0,_2fr)] gap-4 p-24 pt-12`}
     >
       {Object.keys(groupList).length === 0 ? (
         <label>
@@ -43,9 +43,11 @@ function Group({ groupList, onDropNew, onDragStart }: Props) {
             </div>
 
             <div
-              className={`grid gap-4 ${
-                showGroupRows ? "grid-flow-col" : "grid-flow-row"
-              }`}
+              className={`grid gap-4 grid-flow-row max-md:grid-cols-2 max-lg:grid-cols-3 ${
+                showGroupRows
+                  ? "grid-cols-3"
+                  : ""
+              } `}
             >
               {yearDataList.map((item: ListItem, id: number) => {
                 return (
