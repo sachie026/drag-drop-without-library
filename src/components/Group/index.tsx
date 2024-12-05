@@ -21,7 +21,7 @@ function Group({ groupList, onDropNew, onDragStart }: Props) {
       } max-lg:grid-flow-row auto-cols-[minmax(0,_2fr)] gap-4 p-24 pt-12`}
     >
       {Object.keys(groupList).length === 0 ? (
-        <label>
+        <label className="font-thin">
           <b>Note:</b> Click Initial Order or Sorted Order to render the list
         </label>
       ) : null}
@@ -38,7 +38,7 @@ function Group({ groupList, onDropNew, onDragStart }: Props) {
               onDropNew(event, year);
             }}
           >
-            <div className="bg-black text-white p-2 rounded-md text-center content-center h-10">
+            <div className="bg-black font-thin text-white p-2 rounded-md text-center content-center h-10">
               {year}
             </div>
 
