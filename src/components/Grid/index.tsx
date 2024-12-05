@@ -108,13 +108,21 @@ function Grid() {
     // This method is required to add to the current visible list
     const splitDate = messageData.date.split("-");
     const onDropYear = splitDate[0];
-    const prevDataList = [...selectedGroupList[onDropYear]];
+    const prevDataList = onDropYear in selectedGroupList ? [...selectedGroupList[onDropYear]] : [];
     const tempList = { ...selectedGroupList };
 
-    tempList[onDropYear] = [
-      ...prevDataList,
-      { date: splitDate[2], month: splitDate[1], message: messageData.message },
-    ];
+    if(onDropYear in tempList) {
+      tempList[onDropYear] = [
+        ...prevDataList,
+        { date: splitDate[2], month: splitDate[1], message: messageData.message },
+      ];
+    }
+    else{
+      tempList[onDropYear] = [
+        ...prevDataList,
+        { date: splitDate[2], month: splitDate[1], message: messageData.message },
+      ];
+    }
 
     setSelectedGroupList({
       ...tempList,
